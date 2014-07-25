@@ -1,13 +1,4 @@
-[
-  {
-    "id": "id",
-    "name": "name",
-    "latitude": "latitude",
-    "longitude": "longitude",
-    "capacity": "dpcapacity",
-    "landmark": "landmark",
-    "online_date": "online date"
-  },
+var divvy_stations = [
   {
     "id": "5",
     "name": "State St & Harrison St",
@@ -2708,4 +2699,4 @@
     "landmark": "440",
     "online_date": "10/17/2013"
   }
-]
+];
