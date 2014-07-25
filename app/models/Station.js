@@ -1,16 +1,19 @@
-var StationModule = {
-    var station = function Station(stationJson) {
-        station = Json.parse(stationJson);
-        for (var key in station) { 
-            this[key] = station[key];
-        }
+function Station(stationJson) {
+    for (var key in stationJson) { 
+        this[key] = stationJson[key];
     }
-    /**
-      * Return a list of Divvy Station Objects
-      */
-    var readStations = readStationsFromJsonFile(jsonFile) {
+}
 
-    }
-};
- 
+Station.prototype.toString = function() {
+    return "Station ID: " + this.id + " Name:" + this.name;
+    ;
+}
+
+var stations = [];
+
+for (var idx in divvy_stations) {
+    var station = new Station(divvy_stations[idx]);
+    console.log(station.toString());
+    stations.push(station);
+}
 
