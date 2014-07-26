@@ -18,12 +18,14 @@ function initialize_map() {
 }
 
 function createMarker(marker_position, marker_title, capacity) {
+    var iconBackgroundColor = "2FCAFC"; //Chicago Blue
+    var iconTextColor = "FFFFFF"; // White
     var marker = new google.maps.Marker({       
         position: marker_position, 
         title: marker_title,
         // The google chart api is capable of generating map pin images
         // containing a number, letter or icon
-        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|FF0000|000000"
+        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|" + iconBackgroundColor + "|" + iconTextColor
     }); 
     // When a user clicks on a marker, a "click" event is generated
 	// Here is an example of animating a marker when it is clicked on
