@@ -30,12 +30,12 @@ Station.prototype.toString = function() {
  * This function reads in all stations from the list loaded in memory and creates Station objects
  */ 
 function readAllStations() {
-	var allStations = [];
+	var allStations = {};
 	for (var idx in divvy_stations) {
 		var stationJson = divvy_stations[idx]
 	    var station = new Station(stationJson.id, stationJson.name, stationJson.latitude, stationJson.longitude, stationJson.capacity, stationJson.onlineDate);
 	    console.log(station.toString());
-	    allStations.push(station);
+	    allStations[station.stationId] = station;
 	}
 	return allStations;
 }

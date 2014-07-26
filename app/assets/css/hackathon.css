@@ -1,0 +1,4 @@
+body { height: 100% }
+#map_canvas img {
+  max-width: none;
+}

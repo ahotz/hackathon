@@ -1,5 +1,6 @@
 /** 
  * Set up the Google Map
+ * See the API documentation here
  * https://developers.google.com/maps/documentation/javascript
  */ 
 function initialize_map() {
@@ -16,10 +17,13 @@ function initialize_map() {
     return divvy_map;
 }
 
-function createMarker(marker_position, marker_title) {
+function createMarker(marker_position, marker_title, capacity) {
     var marker = new google.maps.Marker({       
         position: marker_position, 
-        title: marker_title      
+        title: marker_title,
+        // The google chart api is capable of generating map pin images
+        // containing a number, letter or icon
+        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|FF0000|000000"
     }); 
     // When a user clicks on a marker, a "click" event is generated
 	// Here is an example of animating a marker when it is clicked on
@@ -35,14 +39,14 @@ function createMarker(marker_position, marker_title) {
 }
 
 /** 
- * Draw all the divvy stations on a map using
+ * Draw all the divvy stations on a map.
  */
 function paint_stations_on_map(stations, map) {
 	for (var station_idx in stations) {
 		var station = stations[station_idx];
 		var position = new google.maps.LatLng(station.latitude, station.longitude);
 		var title = station.stationName + "(" + station.stationId + ")";
-		var marker = createMarker(position, title);
+		var marker = createMarker(position, title, station.capacity);
 		marker.setMap(map);	
 	}
 } 
