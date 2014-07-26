@@ -29,15 +29,25 @@ Station.prototype.toString = function() {
 /** 
  * This function reads in all stations from the list loaded in memory and creates Station objects
  */ 
-function readAllStations() {
+function readAllStations(divy_stations_json) {
 	var allStations = {};
-	for (var idx in divvy_stations) {
-		var stationJson = divvy_stations[idx]
-	    var station = new Station(stationJson.id, stationJson.name, stationJson.latitude, stationJson.longitude, stationJson.capacity, stationJson.onlineDate);
+	for (var idx in divy_stations_json) {
+		var stationJson = divy_stations_json[idx];
+	    var station = new Station(stationJson.id, stationJson.name, stationJson.latitude, stationJson.longitude, stationJson.capacity, stationJson.online_date);
 	    console.log(station.toString());
 	    allStations[station.stationId] = station;
 	}
 	return allStations;
 }
 
-divvy_stations = readAllStations();
+function getStationsSortedByTime(stations) {
+	var stationArray = [];
+	// Put the stations into an array
+	for (var stationId in stations) {
+		stationArray.push(stations[stationId]);
+	}
+	stationArray.sort(function(a,b) { return a.onlineDate - b.onlineDate});
+	return stationArray;
+}
+
+divvy_stations = readAllStations(divy_stations_json);

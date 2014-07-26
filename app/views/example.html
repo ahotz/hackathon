@@ -58,15 +58,16 @@
     <div class="container">
 
       <h1>Welcome to the Groupon + 21CYP Hackathon</h1>
-      <h2>Example Project</h2>
+      <h2>Example Project - Growth of the Network over Time</h2>
       <div id="map-canvas" style="height: 500px"></div>
 
     </div> <!-- /container -->
     <script>
     // This code will be run when the document has finished loading
     $(document).ready(function() {
-      var divvy_map = initialize_map();
-      paint_stations_on_map(divvy_stations, divvy_map);
+      var divvy_map = initialize_map(13);
+      var stations_by_time = getStationsSortedByTime(divvy_stations);
+      paint_stations_on_map(stations_by_time, divvy_map, 100);
     });
     </script>
     <!-- The javascript
@@ -77,5 +78,6 @@
     <script src="../models/Station.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBi-yJLXBnW-heOWSLP50G9mPpk4fahQGQ"></script>
     <script src="../models/Map.js"></script>
+    <script src="../test/unit_tests.js"></script>
   </body>
 </html>
