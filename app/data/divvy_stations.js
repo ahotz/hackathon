@@ -1,7 +1,7 @@
 /** Load all the divvy stations into a global variable
     named divvy_stations
 */
-var divvy_stations = [
+var divy_stations_json = [
   {
     "id": "5",
     "name": "State St & Harrison St",

@@ -3,10 +3,10 @@
  * See the API documentation here
  * https://developers.google.com/maps/documentation/javascript
  */ 
-function initialize_map() {
+function initialize_map(zoom) {
 	var mapOptions = {
 	  center: new google.maps.LatLng(41.857556, -87.661535),
-	  zoom: 14
+	  zoom: zoom
 	};
 
 	var divvy_map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -25,7 +25,8 @@ function createMarker(marker_position, marker_title, capacity) {
         title: marker_title,
         // The google chart api is capable of generating map pin images
         // containing a number, letter or icon
-        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|" + iconBackgroundColor + "|" + iconTextColor
+        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|" + iconBackgroundColor + "|" + iconTextColor,
+        animation: google.maps.Animation.DROP,
     }); 
     // When a user clicks on a marker, a "click" event is generated
 	// Here is an example of animating a marker when it is clicked on
@@ -43,13 +44,20 @@ function createMarker(marker_position, marker_title, capacity) {
 /** 
  * Draw all the divvy stations on a map.
  */
-function paint_stations_on_map(stations, map) {
+function paint_stations_on_map(stations, map, delay_per_station) {
+	var markers = [];
 	for (var station_idx in stations) {
 		var station = stations[station_idx];
 		var position = new google.maps.LatLng(station.latitude, station.longitude);
 		var title = station.stationName + "(" + station.stationId + ")";
-		var marker = createMarker(position, title, station.capacity);
-		marker.setMap(map);	
+   		markers.push(createMarker(position, title, station.capacity, map));
+	}
+	for (var i=0; i < markers.length; ++i) {
+		setTimeout(function(i) {
+			return function() {
+				markers[i].setMap(map);
+			}
+		}(i), i * 50);
 	}
 } 
 
