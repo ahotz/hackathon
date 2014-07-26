@@ -40,4 +40,4 @@ function readAllStations() {
 	return allStations;
 }
 
-stations = readAllStations();
+divvy_stations = readAllStations();
