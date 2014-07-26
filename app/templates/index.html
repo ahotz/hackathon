@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Groupon - 21st Century Youth Project - Hackathon
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Custom styles -->
+{% endblock %}
+
+{% block content %}
+<h1>Welcome to the Groupon + 21CYP Hackathon</h1>
+<p>Getting Started<br> Chat</p>
+
+<div id="map-canvas" style="height: 500px"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBi-yJLXBnW-heOWSLP50G9mPpk4fahQGQ"></script>
+<script src="{{ url_for('static', filename='data/divvy_stations.js') }}"></script>
+<script src="{{ url_for('static', filename='models/Station.js')}}"></script>
+<script src="{{ url_for('static', filename='models/Map.js')}}"></script>
+<script>
+// This code will be run when the document has finished loading
+$(document).ready(function() {
+  var divvy_map = initialize_map();
+  paint_stations_on_map(divvy_stations, divvy_map);
+});
+</script>
+{% endblock %}

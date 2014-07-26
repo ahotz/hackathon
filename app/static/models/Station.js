@@ -24,7 +24,7 @@ function Station(station_id, station_name, latitude, longitude, capacity, online
 Station.prototype.toString = function() {
     return "Station ID: " + this.station_id + " Name:" + this.station_name + 
     	   " Lat:" + this.latitude + "Lng: " + this.longitude;
-}
+};
 
 /** 
  * This function reads in all stations from the list loaded in memory and creates Station objects
@@ -32,7 +32,7 @@ Station.prototype.toString = function() {
 function readAllStations() {
 	var allStations = [];
 	for (var idx in divvy_stations) {
-		var stationJson = divvy_stations[idx]
+		var stationJson = divvy_stations[idx];
 	    var station = new Station(stationJson.id, stationJson.name, stationJson.latitude, stationJson.longitude, stationJson.capacity, stationJson.online_date);
 	    console.log(station.toString());
 	    allStations.push(station);
