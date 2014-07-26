@@ -47,8 +47,8 @@
           <a class="brand" href="#" style="color: #82b548">Groupon Hackathon</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="example.html">Example</a></li>
+              <li><a href="index.html">Home</a></li>
+              <li class="active"><a href="#">Example</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -58,39 +58,24 @@
     <div class="container">
 
       <h1>Welcome to the Groupon + 21CYP Hackathon</h1>
-      <h2>Getting Started</h2>
-      <h3>Choose an editor</h3>
-      <p>Here are some of our favourites</p>
-      <ul>
-        <li>Whatever you like</li>
-        <li> <a href="http://www.jetbrains.com/pycharm">Pycharm</a></li>
-        <li> <a href="http://www.sublimetext.com/">Sublime Text</a></li>
-        <li>Vim</li>
-      </ul>
-      <h3>Clone the project repository</h3>
-      <p>Your Guide will help you with this. The project is in a public github repository located at: <a href="https://github.com/ahotz/hackathon">https://github.com/ahotz/hackathon</a></p>
-      <code>git clone https://github.com/ahotz/hackerthon</code>
-      
+      <h2>Example Project</h2>
+      <div id="map-canvas" style="height: 500px"></div>
 
-      
     </div> <!-- /container -->
-  
+    <script>
+    // This code will be run when the document has finished loading
+    $(document).ready(function() {
+      var divvy_map = initialize_map();
+      paint_stations_on_map(divvy_stations, divvy_map);
+    });
+    </script>
     <!-- The javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
-    -->
+    <!-- Move to the front for teaching reasons? -->
+    <script src="../data/divvy_stations.js"></script>
+    <script src="../models/Station.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBi-yJLXBnW-heOWSLP50G9mPpk4fahQGQ"></script>
+    <script src="../models/Map.js"></script>
   </body>
 </html>
