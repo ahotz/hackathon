@@ -41,7 +41,7 @@ function paint_stations_on_map(stations, map) {
 	for (var station_idx in stations) {
 		var station = stations[station_idx];
 		var position = new google.maps.LatLng(station.latitude, station.longitude);
-		var title = station.station_name + "(" + station.station_id + ")";
+		var title = station.stationName + "(" + station.stationId + ")";
 		var marker = createMarker(position, title);
 		marker.setMap(map);	
 	}
