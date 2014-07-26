@@ -16,17 +16,34 @@ function initialize_map() {
     return divvy_map;
 }
 
+function createMarker(marker_position, marker_title) {
+    var marker = new google.maps.Marker({       
+        position: marker_position, 
+        title: marker_title      
+    }); 
+    // When a user clicks on a marker, a "click" event is generated
+	// Here is an example of animating a marker when it is clicked on
+	// See if you can guess what this code will do.	
+    google.maps.event.addListener(marker, 'click', function() {
+			if (marker.getAnimation() != null) {
+	    		marker.setAnimation(null);
+	  		} else {
+	    		marker.setAnimation(google.maps.Animation.BOUNCE);
+	  		}
+	});
+    return marker;  
+}
+
 /** 
  * Draw all the divvy stations on a map using
  */
 function paint_stations_on_map(stations, map) {
 	for (var station_idx in stations) {
 		var station = stations[station_idx];
-		var marker = new google.maps.Marker({
-		    position: new google.maps.LatLng(station.latitude, station.longitude),
-		    title: station.station_name + "(" + station.station_id + ")"
-		});
-		// To add the marker to the map, call setMap();
-		marker.setMap(map);
+		var position = new google.maps.LatLng(station.latitude, station.longitude);
+		var title = station.station_name + "(" + station.station_id + ")";
+		var marker = createMarker(position, title);
+		marker.setMap(map);	
 	}
-}
+} 
+
