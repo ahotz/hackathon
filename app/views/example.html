@@ -67,7 +67,8 @@
     $(document).ready(function() {
       var divvy_map = initialize_map(13);
       var stations_by_time = getStationsSortedByTime(divvy_stations);
-      paint_stations_on_map(stations_by_time, divvy_map, 100);
+      var delayPerStationInMs = 0; //set to 0 to turn off the animation
+      paint_stations_on_map(stations_by_time, divvy_map, delayPerStationInMs);
     });
     </script>
     <!-- The javascript
