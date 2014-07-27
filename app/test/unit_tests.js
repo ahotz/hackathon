@@ -1,26 +1,26 @@
 function assertEquals(a,b) {
-    if (a!==b) throw a + " is not equal to" + b;
+  if (a!==b) throw a + " is not equal to" + b;
 }
 
 function assertTrue(a) {
-    if (!a) throw a + " is not true when expected";
+  if (!a) throw a + " is not true when expected";
 }
 
 
 var testReadAllStations = function(divy_stations_json) {
 	var stationResponse = readAllStations(divy_stations_json);
 	assertEquals(300, Object.keys(stationResponse).length);
-    console.log("testReadAllStations passed");
+  console.log("testReadAllStations passed");
 }
 
 var testStationsSortedByTime = function(stations) {
-	var sortedStations = getStationsSortedByTime(stations);
-	for (var idx = 0; idx < sortedStations.length; ++idx) {
-		if (idx === 0) continue;
-		// Each station should have a later start date than the previous one
-		assertTrue(sortedStations[idx].onlineDate >= sortedStations[idx-1].onlineDate);
-	}
-    console.log("testStationsSortedByTime passed");
+  var sortedStations = getStationsSortedByTime(stations);
+  for (var idx = 0; idx < sortedStations.length; ++idx) {
+    if (idx === 0) continue;
+    // Each station should have a later start date than the previous one
+    assertTrue(sortedStations[idx].onlineDate >= sortedStations[idx-1].onlineDate);
+  }
+  console.log("testStationsSortedByTime passed");
 }
 
 var testReadOneTripFromServerResponse = function() {
@@ -43,8 +43,7 @@ var testReadOneTripFromServerResponse = function() {
 	assertEquals(85, trip.fromStationId);
 	assertEquals(new Date("2013-06-27 12:11").getTime(), trip.startTime.getTime());
 	assertEquals("Larrabee St & Menomonee St", trip.toStationName);
-    console.log("testReadOneTripFromServerResponse passed");
-
+  console.log("testReadOneTripFromServerResponse passed");
 }
 
 /**
@@ -52,11 +51,11 @@ var testReadOneTripFromServerResponse = function() {
  * every time.
  */
 var testGettingStationsFromServer = function() {
-    var testStationId = 85;
-    getAllTripsFromStationId(testStationId, function(trips) {
-        assertEquals(13274, Object.keys(trips).length);
-    })
-    console.log("testGettingStationsFromServer passed");
+  var testStationId = 85;
+  getAllTripsFromStationId(testStationId, function(trips) {
+      assertEquals(13274, Object.keys(trips).length);
+  })
+  console.log("testGettingStationsFromServer passed");
 }
 
 // Run the tests
