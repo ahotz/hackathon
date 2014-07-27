@@ -1,5 +1,5 @@
-/** Load all the divvy stations into a global variable
-    named divvy_stations
+/*
+* Load all the named divvy stations into a global variable
 */
 var divy_stations_json = [
   {
