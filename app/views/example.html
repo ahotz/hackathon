@@ -73,7 +73,7 @@
     });
 
     function paintStations(stations, map, stationIdx, delay) {
-        if (stationIdx > stations.length) return;
+        if (stationIdx >= stations.length) return;
         var station = stations[stationIdx];
         paintStationOnMap(station, map, google.maps.Animation.DROP);
         setTimeout(function() {

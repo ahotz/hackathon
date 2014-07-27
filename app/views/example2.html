@@ -60,30 +60,45 @@
 
       <h1>Welcome to the Groupon + 21CYP Hackathon</h1>
       <h2>Example Project - The life of a bike... it ain't easy being blue</h2>
-      <div id="map-canvas" style="height: 500px"></div>
 
+
+      <div id="map-canvas" style="height: 500px"></div>
+        <form>
+            Enter Bike Id: <input type="text" name="bikeid" id="bikeInput" />
+            <input type="button" value="Go" onclick="drawBikeRoute()" />
+        </form>
     </div> <!-- /container -->
     <script>
     // This code will be run when the document has finished loading
     $(document).ready(function() {
-      var divvy_map = initialize_map(13);
+        divvy_map = initialize_map(13);
+        paintTimer = null;
+    });
+
+    function drawBikeRoute() {
+      if (paintTimer != null) {
+          clearTimeout(paintTimer);
+      }
+      var bikeId = $("#bikeInput").val();
       var stations_by_time = getStationsSortedByTime(divvy_stations);
       var delayPerStationInMs = 0; //set to 0 to turn off the animation
       //paintStationsOnMap(stations_by_time, divvy_map);
-      getAllTripsForBikeId(480, divvy_stations, function(trips) {
-        paintTrips(trips, Object.keys(trips), 0, divvy_map);
+      getAllTripsForBikeId(bikeId, divvy_stations, function(trips) {
+        paintTimer = paintTrips(trips, Object.keys(trips), 0, divvy_map);
       });
-    });
+    }
 
     function paintTrips(trips, tripKeys,tripIdx, map) {
-        if (tripIdx > tripKeys.length) return;
+        if (tripIdx >= tripKeys.length) return;
         var trip = trips[tripKeys[tripIdx]];
-        paintStationOnMap(trip.fromStation, map, null, 2000);
-        paintStationOnMap(trip.toStation, map, null, 2000);
-        var tripPath = paintTripOnMap(trip, map, 2000);
-        setTimeout(function() {
-            paintTrips(trips, tripKeys, tripIdx+1, map);
-        }, 500);
+        var removeOldTripDelay = 800;
+        var drawNextTripDelay = 200;
+        paintStationOnMap(trip.fromStation, map, null, removeOldTripDelay);
+        paintStationOnMap(trip.toStation, map, google.maps.Animation.DROP, removeOldTripDelay);
+        var tripPath = paintTripOnMap(trip, map, removeOldTripDelay);
+        return setTimeout(function() {
+            paintTimer = paintTrips(trips, tripKeys, tripIdx+1, map);
+        }, drawNextTripDelay);
     }
     </script>
     <!-- The javascript
