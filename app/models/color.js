@@ -1,4 +1,5 @@
 var color = {
   chicagoBlue: "2FCAFC",
-  white: "FFFFFF"
+  white: "FFFFFF",
+  red: "#FF0000"
 };
