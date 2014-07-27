@@ -63,7 +63,7 @@ function readTripsFromJsonResponse(jsonTripList, stations) {
 }
 
 function getAllTripsForQuery(query, stations, callback) {
-    return $.getJSON("http://localhost:5000/data", query, function(response) {
+    return $.getJSON("http://" + HACKATHON_SERVER + "/data", query, function(response) {
         var trips = readTripsFromJsonResponse(response, stations);
         callback(trips);
     })
