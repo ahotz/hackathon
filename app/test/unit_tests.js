@@ -101,8 +101,8 @@ var testGettingTripsForBikeFromServer = function(stations) {
 testReadAllStations(divy_stations_json);
 testStationsSortedByTime(divvy_stations);
 /*
-   testReadOneTripFromServerResponse(divvy_stations);
-   testGettingTripFromStationFromServer(divvy_stations);
-   testGettingTripsToStationFromServer(divvy_stations);
-   testGettingTripsForBikeFromServer(divvy_stations);
-   */
+testReadOneTripFromServerResponse(divvy_stations);
+testGettingTripFromStationFromServer(divvy_stations);
+testGettingTripsToStationFromServer(divvy_stations);
+testGettingTripsForBikeFromServer(divvy_stations);
+*/
