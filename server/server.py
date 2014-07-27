@@ -15,41 +15,72 @@ def hello():
 
 @app.route("/count", methods=['GET'])
 def get_count():
-    query = dict()
-    for key in ["trip_id", "bikeid", "from_station_id", "to_station_id"]:
-        if request.args.has_key(key):
-            query[key] = int(request.args.get(key))
-    for key in ["usertype", "gender", "birthday"]:
-        if request.args.has_key(key):
-            query[key] = request.args.get(key)
+    query = getQueryObject(request.args)
+    range_query = getRangeQueryObject(request.args)
     print query
-    return json.dumps(len(list(filter_data(query))))
+    return json.dumps(len(list(filter_data(query, range_query))))
+
 
 @app.route("/data", methods=['GET'])
 def get_data():
-    query = dict()
-    for key in ["trip_id", "bikeid", "from_station_id", "to_station_id"]:
-        if request.args.has_key(key):
-            query[key] = int(request.args.get(key))
-    for key in ["usertype", "gender", "birthday"]:
-        if request.args.has_key(key):
-            query[key] = request.args.get(key)
+    query = getQueryObject(request.args)
+    range_query = getRangeQueryObject(request.args)
     print query
-    return json.dumps(list(filter_data(query)))
+    return json.dumps(list(filter_data(query, range_query)))
 
 
-def json_matches(json, jsonSubSet):
-    if len(jsonSubSet) == 0:
-        return False
-    for key in jsonSubSet:
-        if not json.has_key(key) or json[key] != jsonSubSet[key]:
+def getQueryObject(args):
+    query = dict()
+    for key in ["trip_id", "bikeid", "from_station_id", "to_station_id", "starthour", "endhour"]:
+        if key in args:
+            query[key] = int(args.get(key))
+    for key in ["usertype", "gender", "birthday"]:
+        if key in args:
+            query[key] = args.get(key)
+    return query
+
+
+def getRangeQueryObject(args):
+    # expected: int(20131231)
+    query = dict()
+    for key in ["start_before", "end_before", "start_after", "end_after", "duration_smaller", "duration_larger"]:
+        if key in args:
+            query[key] = int(args.get(key))
+    return query
+
+
+def json_matches(jsonObejct, json_query):
+    if len(json_query) == 0:
+        return True
+    for key in json_query:
+        if not key in jsonObejct or jsonObejct[key] != json_query[key]:
             return False
     return True
 
-def filter_data(query):
+
+def range_matches(jsonObject, range_query):
+    if len(range_query) == 0:
+        return True
+    if "start_before" in range_query and jsonObject["startdate"] > range_query["start_before"]:
+        return False
+    if "end_before" in range_query and jsonObject["enddate"] > range_query["end_before"]:
+        return False
+    if "start_after" in range_query and jsonObject["startdate"] < range_query["start_after"]:
+        return False
+    if "end_after" in range_query and jsonObject["startdate"] < range_query["end_after"]:
+        return False
+    if "duration_smaller" in range_query and jsonObject["tripduration"] > range_query["duration_smaller"]:
+        return False
+    if "duration_larger" in range_query and jsonObject["tripduration"] < range_query["duration_larger"]:
+        return False
+    return True
+
+
+def filter_data(query, time_query):
     for item in tripData:
-        if json_matches(item, query):
+        if json_matches(item, query) and range_matches(item, time_query):
             yield item
+
 
 def load_trip_data():
     print "Hello"
@@ -70,7 +101,11 @@ def load_trip_data():
                 'to_station_name': row[8],
                 'usertype': row[9],
                 'gender': row[10],
-                'birthday': row[11]
+                'birthday': row[11],
+                'starthour': int(row[1][11:13]),
+                'endhour': int(row[2][11:13]),
+                'startdate': int(row[1][0:4] + row[1][5:7] + row[1][8:10]),
+                'enddate': int(row[2][0:4] + row[2][5:7] + row[2][8:10])
             })
             count += 1
             if count % 7597 == 0:
