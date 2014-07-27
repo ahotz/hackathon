@@ -17,15 +17,34 @@ function initialize_map(zoom) {
     return divvy_map;
 }
 
-function createMarker(marker_position, marker_title, capacity, animation) {
-    var iconBackgroundColor = "2FCAFC"; //Chicago Blue
-    var iconTextColor = "FFFFFF"; // White
-    var marker = new google.maps.Marker({       
+/**
+ * Create a marker that suitable for drawing on the map.
+ * This method could be customized to include different icons and
+ * marker styles.
+ *
+ * What ideas can you think of?
+ *
+ * @param marker_position
+ * @param marker_title
+ * @param capacity
+ * @param animation
+ * @returns {google.maps.Marker} A marker object
+ */
+function createMarker(marker_position, marker_title, text, animation) {
+    var fillColor = "2FCAFC"; //Chicago Blue
+    //var iconTextColor = "FFFFFF"; // White
+    var scaleFactor = 1;
+    var rotationDeg = 0;
+    var fontSize = 12;
+    var fontStyle = "b"; //bold
+    var marker = new google.maps.Marker({
         position: marker_position, 
         title: marker_title,
         // The google chart api is capable of generating map pin images
         // containing a number, letter or icon
-        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + capacity + "|" + iconBackgroundColor + "|" + iconTextColor,
+        // chld=<scale_factor>|<rotation_deg>|<fill_color>|<font_size>|<font_style>|<text_line_1>|...|<text_line_n>
+        icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=" + scaleFactor + "|" + rotationDeg + "|" + fillColor +
+        "|" + fontSize + "|" + fontStyle + "|" + text,
         animation: animation
     }); 
     // When a user clicks on a marker, a "click" event is generated
@@ -40,31 +59,33 @@ function createMarker(marker_position, marker_title, capacity, animation) {
 	});
     return marker;  
 }
-
-/** 
+/**
+ * Paint a station on the map by creating a marker that
+ * represents it.
+ *
+ * @param station
+ * @param map
+ * @param animation
+ */
+function paintStationOnMap(station, map, animation, removeDelay) {
+    var position = new google.maps.LatLng(station.latitude, station.longitude);
+    var title = station.stationName + "(" + station.stationId + ")";
+    var marker = createMarker(position, title, station.stationId, animation);
+    marker.setMap(map);
+    if (removeDelay > 0) {
+        setInterval(function() {
+            marker.setMap(null);
+        }, removeDelay);
+    }
+}
+/**
+ *
  * Draw all the divvy stations on a map.
  */
-function paintStationsOnMap(stations, map, delay_per_station) {
-	var markers = [];
-	for (var station_idx in stations) {
-		var station = stations[station_idx];
-		var position = new google.maps.LatLng(station.latitude, station.longitude);
-		var title = station.stationName + "(" + station.stationId + ")";
-   		var animation = null;
-   		if (delay_per_station > 0) {
-   			animation = google.maps.Animation.DROP;
-   			markers.push(createMarker(position, title, station.capacity, animation));
-   		} else {
-   			var marker = createMarker(position, title, station.capacity, animation); 
-   			marker.setMap(map);
-   		}
-	}
-	for (var i=0; i < markers.length; ++i) {
-		setTimeout(function(i) {
-			return function() {
-				markers[i].setMap(map);
-			}
-		}(i), i * delay_per_station);
+function paintStationsOnMap(stations, map) {
+	for (var stationIdx in stations) {
+        var station = stations[stationIdx];
+        paintStationOnMap(station, map, null, 0);
 	}
 }
 

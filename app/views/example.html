@@ -69,8 +69,17 @@
       var divvy_map = initialize_map(13);
       var stations_by_time = getStationsSortedByTime(divvy_stations);
       var delayPerStationInMs = 50; //set to 0 to turn off the animation
-      paintStationsOnMap(stations_by_time, divvy_map, delayPerStationInMs);
+      paintStations(stations_by_time, divvy_map, 0, delayPerStationInMs);
     });
+
+    function paintStations(stations, map, stationIdx, delay) {
+        if (stationIdx > stations.length) return;
+        var station = stations[stationIdx];
+        paintStationOnMap(station, map, google.maps.Animation.DROP);
+        setTimeout(function() {
+            paintStations(stations, map, stationIdx+1, delay);
+        }, delay);
+    }
     </script>
     <!-- The javascript
     ================================================== -->

@@ -27,7 +27,7 @@ Station.prototype.toString = function() {
 }
 
 /** 
- * This function reads in all stations from the list loaded in memory and creates Station objects
+ * This function reads in all stations from the list loaded from the file data/divvy_stations.js and creates Station objects
  */ 
 function readAllStations(divy_stations_json) {
 	var allStations = {};
@@ -39,6 +39,13 @@ function readAllStations(divy_stations_json) {
 	return allStations;
 }
 
+/**
+ * This function takes the list of stations and puts them into an array
+ * sorted by time.
+ *
+ * @param stations
+ * @returns {Array} stations sorted by time.
+ */
 function getStationsSortedByTime(stations) {
 	var stationArray = [];
 	// Put the stations into an array

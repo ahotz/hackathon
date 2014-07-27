@@ -69,7 +69,7 @@
       var divvy_map = initialize_map(13);
       var stations_by_time = getStationsSortedByTime(divvy_stations);
       var delayPerStationInMs = 0; //set to 0 to turn off the animation
-      paintStationsOnMap(stations_by_time, divvy_map, delayPerStationInMs);
+      //paintStationsOnMap(stations_by_time, divvy_map);
       getAllTripsForBikeId(480, divvy_stations, function(trips) {
         paintTrips(trips, Object.keys(trips), 0, divvy_map);
       });
@@ -78,6 +78,8 @@
     function paintTrips(trips, tripKeys,tripIdx, map) {
         if (tripIdx > tripKeys.length) return;
         var trip = trips[tripKeys[tripIdx]];
+        paintStationOnMap(trip.fromStation, map, null, 2000);
+        paintStationOnMap(trip.toStation, map, null, 2000);
         var tripPath = paintTripOnMap(trip, map, 2000);
         setTimeout(function() {
             paintTrips(trips, tripKeys, tripIdx+1, map);
