@@ -16,24 +16,24 @@ Get the count or data of entries matching the query.
 
 ###Can accept the following parameters:
 ##### Filter
-* trip_id: Get the trip with tripid = <value>.
-* bikeid: Get the trips for the bike with bike id = <value>.
-* from_station_id: Get the trips start from the station with id = <value>.
-* to_station_id: Get the trips start from the station with id = <value>.
-* starthour: Get the trips that started in the specified hour. Range: [0-23].
-* endhour: GEt the trips that ended in the specified hour. Range: [0-23].
+* `trip_id`: Get the trip with tripid = <value>.
+* `bikeid`: Get the trips for the bike with bike id = <value>.
+* `from_station_id`: Get the trips start from the station with id = <value>.
+* `to_station_id`: Get the trips start from the station with id = <value>.
+* `starthour`: Get the trips that started in the specified hour. Range: [0-23].
+* `endhour`: GEt the trips that ended in the specified hour. Range: [0-23].
 
 #####Range
-* start_before: Get the trips that starts before or on the given date. Format like 20131231, must be a 8-digit number.
-* end_before: Get the trips that ends before or on the given date. Format like 20131231, must be a 8-digit number.
-* start_after: Get the trips that starts on or after the given date. Format like 20131231, must be a 8-digit number.
-* end_after: Get the trips that ends on or after the given date. Format like 20131231, must be a 8-digit number
-* duration_smaller: Get the trips that is equal or shorter than specified duration. Must be a number, use second as the time unit. eg. 300 means 5 minutes
-* duration_larger: GEt the trips that lasts equal or longer than specified duration. Must be a number, use second as the time unit. eg. 300 means 5 minutes
+* `start_before`: Get the trips that starts before or on the given date. Format like 20131231, must be a 8-digit number.
+* `end_before`: Get the trips that ends before or on the given date. Format like 20131231, must be a 8-digit number.
+* `start_after`: Get the trips that starts on or after the given date. Format like 20131231, must be a 8-digit number.
+* `end_after`: Get the trips that ends on or after the given date. Format like 20131231, must be a 8-digit number
+* `duration_smaller`: Get the trips that is equal or shorter than specified duration. Must be a number, use second as the time unit. eg. 300 means 5 minutes
+* `duration_larger`: GEt the trips that lasts equal or longer than specified duration. Must be a number, use second as the time unit. eg. 300 means 5 minutes
 
 ###Return value:
-* /count will return an integer representing the number of entries matching this query
-* /data will return a list of JSON objects that matches the query. 
+* `/count` will return an integer representing the number of entries matching this query
+* `/data` will return a list of JSON objects that matches the query. 
 
 ###Example as following
 query:
@@ -46,7 +46,7 @@ response:
 
 explanation:
 
-There are 361 trips in the dataset using bike 336
+	There are 361 trips in the dataset using bike 336
 
 query:
 
