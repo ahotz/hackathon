@@ -66,10 +66,28 @@ function getAllTripsForQuery(query, callback) {
     })
 }
 /**
- * Retrieve all the trips for a particular station
+ * Retrieve all the trips that departed from a particular station
  * The callback function will be called with dictionary of
  * tripId->trip objects
  */
 function getAllTripsFromStationId(stationId, callback) {
     return getAllTripsForQuery({from_station_id: stationId}, callback);
+}
+
+/**
+ * Retrieve all the trips that departed from a particular station
+ * The callback function will be called with dictionary of
+ * tripId->trip objects
+ */
+function getAllTripsToStationId(stationId, callback) {
+    return getAllTripsForQuery({to_station_id: stationId}, callback);
+}
+
+/**
+ * Retrieve all the trips that a particular bike made
+ * The callback function will be called with dictionary of
+ * tripId->trip objects
+ */
+function getAllTripsForBidId(bikeId, callback) {
+    return getAllTripsForQuery({bikeid: bikeId}, callback);
 }
