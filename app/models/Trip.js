@@ -24,6 +24,7 @@ function Trip(tripId, startTime, stopTime, bikeId, tripDuration,
     this.tripDuration = tripDuration;
     this.fromStationName = fromStationName;
     this.toStationName = toStationName;
+    this.fromStationId = fromStationId;
     this.toStationId = toStationId;
     this.userType = userType;
     this.gender = gender;
@@ -36,4 +37,39 @@ function Trip(tripId, startTime, stopTime, bikeId, tripDuration,
 Trip.prototype.toString = function() {
     return "Trip ID: " + this.tripId + " From: " + this.fromStationName + "(" + this.fromStationId + ")" + 
     	   " To: " + this.toStationName + "(" + this.toStationId + ")";
+}
+
+/** 
+ * Return a mapping between trip_id and trip for an input list of json trip objects
+ * returned by the server.
+ * Example:
+ * [{"bikeid": 480, "stoptime": "2013-06-27 12:16", "to_station_id": 28, "tripduration": 316, "trip_id": 4118, "gender": "", "from_station_name": "Michigan Ave & Oak St", 
+     "usertype": "Customer", "birthday": "", "from_station_id": 85, "starttime": "2013-06-27 12:11", "to_station_name": "Larrabee St & Menomonee St"}]
+ */ 
+function readTripsFromJsonResponse(jsonTripList) {
+    var tripsById = {};
+    for (var idx in jsonTripList) {
+        var tripJson = jsonTripList[idx];
+        trip = new Trip(tripJson.trip_id, tripJson.starttime, tripJson.stoptime, tripJson.bikeid, tripJson.tripduration,
+                        tripJson.from_station_name, tripJson.to_station_name, 
+                        tripJson.from_station_id, tripJson.to_station_id,
+                        tripJson.usertype, tripJson.gender, tripJson.birthday);
+        tripsById[trip.tripId] = trip;
+    }
+    return tripsById;
+}
+
+function getAllTripsForQuery(query, callback) {
+    return $.getJSON("http://localhost:5000/data", query, function(response) {
+        var trips = readTripsFromJsonResponse(response);
+        callback(trips);
+    })
+}
+/**
+ * Retrieve all the trips for a particular station
+ * The callback function will be called with dictionary of
+ * tripId->trip objects
+ */
+function getAllTripsFromStationId(stationId, callback) {
+    return getAllTripsForQuery({from_station_id: stationId}, callback);
 }

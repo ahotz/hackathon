@@ -1,6 +1,7 @@
 __author__ = 'rxue'
 import csv, time, json
 from flask import Flask, request
+from cross_domain import crossdomain
 
 app = Flask("__name__")
 app.debug = True
@@ -13,7 +14,8 @@ def hello():
     return "Hello World"
 
 
-@app.route("/count", methods=['GET'])
+@app.route("/count", methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def get_count():
     query = dict()
     for key in ["trip_id", "bikeid", "from_station_id", "to_station_id"]:
@@ -25,7 +27,8 @@ def get_count():
     print query
     return json.dumps(len(list(filter_data(query))))
 
-@app.route("/data", methods=['GET'])
+@app.route("/data", methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def get_data():
     query = dict()
     for key in ["trip_id", "bikeid", "from_station_id", "to_station_id"]:
