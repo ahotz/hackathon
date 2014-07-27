@@ -102,13 +102,18 @@ function paintTripOnMap(trip, map, removeDelay) {
         strokeWeight: 2
     });
     tripPath.setMap(map);
-    /* Uncomment this to zoom the map to each new location
+
+    /**
+     * Uncomment the code below
+     * for a cool effect.
+     * What do you think it will do?
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < tripCoordinates.length; i++) {
         bounds.extend(tripCoordinates[i]);
     }
-    map.setCenter(bounds.getCenter());
-    */
+    map.fitBounds(bounds);
+    **/
+
     if (removeDelay > 0) {
         setInterval(function() {
             tripPath.setMap(null);
