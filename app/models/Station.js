@@ -34,7 +34,6 @@ function readAllStations(divy_stations_json) {
 	for (var idx in divy_stations_json) {
 		var stationJson = divy_stations_json[idx];
 	    var station = new Station(stationJson.id, stationJson.name, stationJson.latitude, stationJson.longitude, stationJson.capacity, stationJson.online_date);
-	    console.log(station.toString());
 	    allStations[station.stationId] = station;
 	}
 	return allStations;
@@ -46,7 +45,7 @@ function getStationsSortedByTime(stations) {
 	for (var stationId in stations) {
 		stationArray.push(stations[stationId]);
 	}
-	stationArray.sort(function(a,b) { return a.onlineDate - b.onlineDate});
+	stationArray.sort(function(a,b) { return a.onlineDate.getTime() - b.onlineDate.getTime()});
 	return stationArray;
 }
 
