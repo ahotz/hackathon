@@ -12,11 +12,12 @@
  * @param userType "Customer" is a rider who purchased a 24-Hour Pass; "Subscriber" is a rider who purchased an Annual Membership
  * @param gender gender of rider
  * @param birthYear birth year of rider
+ * @param stations The station dictionary to attach links to the real station objects
  */
 
 function Trip(tripId, startTime, stopTime, bikeId, tripDuration, 
               fromStationName, toStationName, fromStationId, toStationId, 
-              userType, gender, birthYear) {
+              userType, gender, birthYear, stations) {
     this.tripId = tripId;
     this.startTime = new Date(startTime);
     this.stopTime = new Date(stopTime);
@@ -29,6 +30,8 @@ function Trip(tripId, startTime, stopTime, bikeId, tripDuration,
     this.userType = userType;
     this.gender = gender;
     this.birthYear = birthYear;
+    this.fromStation = stations[fromStationId.toString()];
+    this.toStation = stations[toStationId.toString()];
 }
 
 /**
@@ -46,22 +49,22 @@ Trip.prototype.toString = function() {
  * [{"bikeid": 480, "stoptime": "2013-06-27 12:16", "to_station_id": 28, "tripduration": 316, "trip_id": 4118, "gender": "", "from_station_name": "Michigan Ave & Oak St", 
      "usertype": "Customer", "birthday": "", "from_station_id": 85, "starttime": "2013-06-27 12:11", "to_station_name": "Larrabee St & Menomonee St"}]
  */ 
-function readTripsFromJsonResponse(jsonTripList) {
+function readTripsFromJsonResponse(jsonTripList, stations) {
     var tripsById = {};
     for (var idx in jsonTripList) {
         var tripJson = jsonTripList[idx];
         trip = new Trip(tripJson.trip_id, tripJson.starttime, tripJson.stoptime, tripJson.bikeid, tripJson.tripduration,
                         tripJson.from_station_name, tripJson.to_station_name, 
                         tripJson.from_station_id, tripJson.to_station_id,
-                        tripJson.usertype, tripJson.gender, tripJson.birthday);
+                        tripJson.usertype, tripJson.gender, tripJson.birthday, stations);
         tripsById[trip.tripId] = trip;
     }
     return tripsById;
 }
 
-function getAllTripsForQuery(query, callback) {
+function getAllTripsForQuery(query, stations, callback) {
     return $.getJSON("http://localhost:5000/data", query, function(response) {
-        var trips = readTripsFromJsonResponse(response);
+        var trips = readTripsFromJsonResponse(response, stations);
         callback(trips);
     })
 }
@@ -70,8 +73,8 @@ function getAllTripsForQuery(query, callback) {
  * The callback function will be called with dictionary of
  * tripId->trip objects
  */
-function getAllTripsFromStationId(stationId, callback) {
-    return getAllTripsForQuery({from_station_id: stationId}, callback);
+function getAllTripsFromStationId(stationId, stations, callback) {
+    return getAllTripsForQuery({from_station_id: stationId}, stations, callback);
 }
 
 /**
@@ -79,8 +82,8 @@ function getAllTripsFromStationId(stationId, callback) {
  * The callback function will be called with dictionary of
  * tripId->trip objects
  */
-function getAllTripsToStationId(stationId, callback) {
-    return getAllTripsForQuery({to_station_id: stationId}, callback);
+function getAllTripsToStationId(stationId, stations, callback) {
+    return getAllTripsForQuery({to_station_id: stationId}, stations, callback);
 }
 
 /**
@@ -88,6 +91,6 @@ function getAllTripsToStationId(stationId, callback) {
  * The callback function will be called with dictionary of
  * tripId->trip objects
  */
-function getAllTripsForBidId(bikeId, callback) {
-    return getAllTripsForQuery({bikeid: bikeId}, callback);
+function getAllTripsForBikeId(bikeId, stations, callback) {
+    return getAllTripsForQuery({bikeid: bikeId}, stations, callback);
 }

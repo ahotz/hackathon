@@ -44,7 +44,7 @@ function createMarker(marker_position, marker_title, capacity, animation) {
 /** 
  * Draw all the divvy stations on a map.
  */
-function paint_stations_on_map(stations, map, delay_per_station) {
+function paintStationsOnMap(stations, map, delay_per_station) {
 	var markers = [];
 	for (var station_idx in stations) {
 		var station = stations[station_idx];
@@ -66,5 +66,33 @@ function paint_stations_on_map(stations, map, delay_per_station) {
 			}
 		}(i), i * delay_per_station);
 	}
-} 
+}
+
+function paintTripOnMap(trip, map, removeDelay) {
+    var tripCoordinates = [
+        new google.maps.LatLng(trip.fromStation.latitude, trip.fromStation.longitude),
+        new google.maps.LatLng(trip.toStation.latitude, trip.toStation.longitude)
+    ];
+    var tripPath = new google.maps.Polyline({
+        path: tripCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+    tripPath.setMap(map);
+    /* Uncomment this to zoom the map to each new location
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < tripCoordinates.length; i++) {
+        bounds.extend(tripCoordinates[i]);
+    }
+    map.setCenter(bounds.getCenter());
+    */
+    if (removeDelay > 0) {
+        setInterval(function() {
+            tripPath.setMap(null);
+        }, removeDelay);
+    }
+    return tripPath;
+}
 
