@@ -22,6 +22,7 @@ Get the count or data of entries matching the query.
 * to_station_id: Get the trips start from the station with id = <value>.
 * starthour: Get the trips that started in the specified hour. Range: [0-23].
 * endhour: GEt the trips that ended in the specified hour. Range: [0-23].
+
 #####Range
 * start_before: Get the trips that starts before or on the given date. Format like 20131231, must be a 8-digit number.
 * end_before: Get the trips that ends before or on the given date. Format like 20131231, must be a 8-digit number.
