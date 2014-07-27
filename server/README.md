@@ -48,9 +48,15 @@ explanation:
 
 	There are 361 trips in the dataset using bike 336
 
+Publicly available URL:
+
+    **http://dev.petergroves.com:8080/**
+    
 query:
 
-	localhost:5000/count?start_before=20130831&start_after=20130801
+	- localhost:5000/count?start_before=20130831&start_after=20130801
+	
+	- http://dev.petergroves.com:8080/count?start_before=20130831&start_after=20130801
 
 response:
 
